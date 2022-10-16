@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.lifecycle.viewmodel.CreationExtras
+import kotlinx.coroutines.selects.select
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -37,23 +38,12 @@ class MainActivity : AppCompatActivity() {
                 k=rnd.nextInt(0,9)
                 while (mark)
                 {
-                    if(!getrow(gen,i).contains(buff[k]) && !getcol(gen,j).contains(buff[k])){
-                        if(i==j && (i==0||i==3||i==6)){
-                                if(!checksquare(gen,i,j,buff[k])){
-                                    gen[i][j]=buff[k]
-                                    mark=false
-                                }
-                                else{
-                                k=(k+1)/8
-                            }
-                        }
-                        else{
-                            gen[i][j]=buff[k]
-                            mark=false
-                        }
+                    if(!getrow(gen,i).contains(buff[k]) && !getcol(gen,j).contains(buff[k])&&!checksquare(gen,i,j,buff[k])){
+                        gen[i][j]=buff[k]
+                        mark=false
                     }
                     else{
-                        k=(k+1)/8
+                        k=(k+1).mod(9)
                     }
                 }
             }
@@ -182,14 +172,23 @@ class MainActivity : AppCompatActivity() {
         var c=Array<Array<Int>>(3,{Array(3,{0})})
         var q=0
         var w=0
-        var answer=false
-        for(i in posi..posi+2){
-            for(j in posj..posj+2){
+        q = when (posi){
+            0,1,2 -> 0
+            3,4,5 -> 3
+            else -> 6
+        }
+        w = when (posj){
+            0,1,2 -> 0
+            3,4,5 -> 3
+            else -> 6
+        }
+        for(i in q..q+2){
+            for(j in w..w+2){
                 if(d[i][j]==e)
                     return true
             }
         }
-        return answer
+        return false
     }
 
 }
