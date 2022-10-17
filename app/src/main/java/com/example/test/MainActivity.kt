@@ -56,6 +56,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        //transpose(gen)
+        //swapcol(gen,0,2)
+        //transpose(gen)
+        //swaprow(gen,7,8)
+
 
         transgen=cast(gen)
         for (i in background.children)
@@ -162,6 +167,29 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+    fun swaprow(d:Array<Array<Int>>,first_row:Int,second_row:Int){
+        for(i in 0..8){
+            var tmp=d[first_row][i]
+            d[first_row][i]=d[second_row][i]
+            d[second_row][i]=tmp
+        }
+    }
+    fun swapcol(d:Array<Array<Int>>,first_col:Int,second_col:Int){
+        for(i in 0..8){
+            var tmp=d[i][first_col]
+            d[i][first_col]=d[i][second_col]
+            d[i][second_col]=tmp
+        }
+    }
+    fun transpose(d:Array<Array<Int>>){
+        var tmp=d
+        for(i in 0..8){
+            for(j in 0..8){
+                d[i][j]=tmp[j][i]
+            }
+        }
+
     }
 
 }
