@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         var gen=Array<Array<Int>>(9,{Array(9,{0})})
         var transgen=Array<Array<Int>>(9,{Array(9,{0})})
         val buff= arrayOf(1,2,3,4,5,6,7,8,9)
+        var buff1= emptyArray<Int>()
         var blk= emptyArray<View>()
         val background=findViewById<ConstraintLayout>(R.id.main)
         var a =background.childCount
@@ -33,43 +34,25 @@ class MainActivity : AppCompatActivity() {
         var ind=0
         //fill square need to check
         for(i in 0..8){
+            ind=rnd.nextInt(0,8)
+            while(buff1.contains(buff[ind])){
+                ind=(ind+1).mod(9)
+            }
+                buff1+=buff[ind]
+        }
+
+        for(i in 0..8){
             for(j in 0..8){
-                var mark=true
-                k=rnd.nextInt(0,9)
-                while (mark)
-                {
-                    if(!getrow(gen,i).contains(buff[k]) && !getcol(gen,j).contains(buff[k])&&!checksquare(gen,i,j,buff[k])){
-                        gen[i][j]=buff[k]
-                        mark=false
-                    }
-                    else{
-                        k=(k+1).mod(9)
-                    }
-                }
-            }
-        }
-        //
-
-        for (i in 0..8) {
-            var tmp = getrow(gen, i)
-            for (j in 0..8) {
-                for (k in 0..8) {
-                    if (tmp[j]==tmp[k] && tmp[j] != 0 && k!=j) {
-                        gen[i][k] = 0
-                        tmp[k]=0
-                    }
-                }
-            }
-        }
-
-        for (i in 0..8) {
-            var tmp = getcol(gen, i)
-            for (j in 0..8) {
-                for (k in 0..8) {
-                    if (tmp[j]==tmp[k] && tmp[j] != 0 && k!=j) {
-                        gen[k][i] = 0
-                        tmp[k]=0
-                    }
+                when(i) {
+                    0->gen[i][j] = buff1[j]
+                    1->gen[i][j] = buff1[(j+3).mod(9)]
+                    2->gen[i][j] = buff1[(j+6).mod(9)]
+                    3->gen[i][j] = buff1[(j+1).mod(9)]
+                    4->gen[i][j] = buff1[(j+4).mod(9)]
+                    5->gen[i][j] = buff1[(j+7).mod(9)]
+                    6->gen[i][j] = buff1[(j+2).mod(9)]
+                    7->gen[i][j] = buff1[(j+5).mod(9)]
+                    8->gen[i][j] = buff1[(j+8).mod(9)]
                 }
             }
         }
@@ -99,17 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this,"123",Toast.LENGTH_SHORT)
     }
-    /*
-    00 01 02 03 04 05 06 07 08      00 01 02 10 11 12 20 21 22
-    10 11 12 13 14 15 16 17 18      03 04 05 13 14 15 23 24 25
-    20 21 22 23 24 25 26 27 28      06 07 08 16 17 18 26 27 28
-    30 31 32 33 34 35 36 37 38      30 31 32 40 41 42 50 41 52
-    40 41 42 43 44 45 46 47 48      33 34 35 43 44 45 53 54 55
-    50 51 52 53 54 55 56 57 58      36 37 38 46 47 48 56 57 58
-    60 61 62 63 64 65 66 67 68      60 61 62 70 71 72 80 81 82
-    70 71 72 73 74 75 76 77 78      63 64 65 73 74 75 83 84 85
-    80 81 82 83 84 85 86 87 88      66 67 68 76 77 78 86 87 88
-     */
+
     fun cast(d:Array<Array<Int>>):Array<Array<Int>>{
         var c=Array<Array<Int>>(9,{Array(9,{0})})
         var n=0
